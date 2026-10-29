@@ -1,0 +1,440 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Hosting</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@500;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: a calm header, then a row of three plan cards with the discounted one raised; payment strip below */
+:root{
+  --bg:#f3f6fb; --surface:#ffffff; --fg:#0f1b2d; --muted:#5a6880; --line:#dbe3ef;
+  --accent:#1f5eff; --accent-ink:#ffffff; --deal:#ff4d2e; --ok:#14a06b;
+  --display:"Readex Pro","IBM Plex Sans Arabic",system-ui,sans-serif;
+  --body:"IBM Plex Sans Arabic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0a111d; --surface:#111b2c; --fg:#e8eef8; --muted:#93a2bb; --line:#22324a;
+  --accent:#5b8cff; --accent-ink:#06101f; --deal:#ff6a4f; --ok:#3ccf91; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0a111d; --surface:#111b2c; --fg:#e8eef8; --muted:#93a2bb; --line:#22324a;
+  --accent:#5b8cff; --accent-ink:#06101f; --deal:#ff6a4f; --ok:#3ccf91; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.7;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1080px;margin:0 auto}
+header{display:flex;align-items:center;justify-content:space-between;padding-block:22px;gap:16px}
+.logo{font-family:var(--display);font-weight:700;font-size:24px;letter-spacing:.5px;display:flex;align-items:center;gap:10px}
+.logo i{width:30px;height:30px;border-radius:8px;background:var(--accent);display:grid;place-items:center;color:var(--accent-ink);font-style:normal;font-size:15px}
+.status{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.status b{width:8px;height:8px;border-radius:50%;background:var(--ok);display:inline-block}
+.intro{padding-block:36px 28px;max-width:640px}
+.intro h1{font-family:var(--display);font-size:clamp(28px,5vw,42px);line-height:1.3;margin:0 0 10px;text-wrap:balance}
+.intro p{color:var(--muted);margin:0}
+.toggle{display:inline-flex;margin-top:22px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:4px;gap:4px}
+.toggle button{border:0;background:transparent;color:var(--muted);font:inherit;font-size:14px;padding:6px 16px;border-radius:7px;cursor:pointer}
+.toggle button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:start;padding-block:20px 10px}
+@media (max-width:860px){.plans{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:26px;display:flex;flex-direction:column;gap:18px;min-width:0;position:relative}
+.card.hot{border:2px solid var(--deal);transform:translateY(-10px)}
+@media (max-width:860px){.card.hot{transform:none}}
+.ribbon{position:absolute;top:-14px;inset-inline-start:22px;background:var(--deal);color:#fff;font-family:var(--display);font-weight:700;font-size:13px;padding:4px 12px;border-radius:6px}
+.name{font-family:var(--display);font-weight:500;font-size:20px;margin:0}
+.for{color:var(--muted);font-size:14px;margin-top:-12px}
+.price{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.price .now{font-family:var(--display);font-weight:700;font-size:40px;line-height:1;font-variant-numeric:tabular-nums}
+.price .per{color:var(--muted);font-size:14px}
+.price .was{color:var(--muted);text-decoration:line-through;font-family:var(--mono);font-size:15px}
+.save{color:var(--deal);font-size:13px;font-weight:600;margin-top:-10px}
+.specs{list-style:none;margin:0;padding:0;display:grid;gap:9px;font-size:15px;border-top:1px solid var(--line);padding-top:16px}
+.specs li{display:flex;justify-content:space-between;gap:12px}
+.specs span{color:var(--muted)}
+.specs strong{font-family:var(--mono);font-weight:500;font-size:14px;direction:ltr}
+.buy{border:0;border-radius:10px;padding:13px;font:inherit;font-weight:600;cursor:pointer;background:var(--bg);color:var(--fg);border:1px solid var(--line)}
+.card.hot .buy{background:var(--deal);color:#fff;border-color:var(--deal)}
+.buy:hover{filter:brightness(1.05)}
+.buy:focus-visible,.toggle button:focus-visible,.pm:focus-within,.close:focus-visible,.confirm:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.pay{padding-block:40px 60px;display:flex;flex-direction:column;gap:14px}
+.pay h2{font-family:var(--display);font-size:18px;margin:0}
+.methods{display:flex;flex-wrap:wrap;gap:10px}
+.chip{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 16px;display:flex;align-items:center;gap:10px;font-weight:500;font-size:15px}
+.dot{width:26px;height:18px;border-radius:4px;display:grid;place-items:center;font-size:10px;font-weight:700;color:#fff;font-family:var(--mono)}
+.d-visa{background:#1a1f71}.d-mc{background:#eb001b}.d-pp{background:#003087}.d-vf{background:#e60000}.d-gp{background:#3c4043}
+.note{color:var(--muted);font-size:13px}
+footer{border-top:1px solid var(--line);padding-block:20px;color:var(--muted);font-size:13px}
+/* modal */
+.overlay{position:fixed;inset:0;background:rgba(5,10,20,.55);display:grid;place-items:center;padding:16px;z-index:20}
+.modal{background:var(--surface);border:1px solid var(--line);border-radius:14px;width:100%;max-width:440px;padding:24px;display:flex;flex-direction:column;gap:16px}
+.modal h3{font-family:var(--display);margin:0;font-size:20px}
+.sum{display:flex;justify-content:space-between;background:var(--bg);border-radius:10px;padding:12px 14px;font-size:15px}
+.sum b{font-family:var(--mono);direction:ltr}
+.pms{display:grid;gap:8px}
+.pm{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:10px;padding:11px 14px;cursor:pointer}
+.pm:has(input:checked){border-color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,transparent)}
+.pm input{accent-color:var(--accent)}
+.row{display:flex;gap:10px}
+.confirm{flex:1;border:0;border-radius:10px;padding:12px;font:inherit;font-weight:600;background:var(--accent);color:var(--accent-ink);cursor:pointer}
+.close{border:1px solid var(--line);background:transparent;color:var(--fg);border-radius:10px;padding:12px 16px;font:inherit;cursor:pointer}
+.done{color:var(--ok);font-weight:600;font-size:15px}
+.vf{display:flex;flex-direction:column;gap:6px}
+.vf label{font-size:14px;font-weight:500}
+.vf input{font:inherit;font-family:var(--mono);direction:ltr;text-align:left;padding:11px 14px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--fg)}
+.vf input:focus-visible{outline:3px solid var(--accent);outline-offset:1px}
+.vf .err{color:var(--deal);font-size:13px}
+.vf .hint{color:var(--muted);font-size:13px}
+.paypal{flex:1;border:0;border-radius:10px;padding:12px;background:#ffc439;color:#111;font-family:var(--display);font-weight:700;font-size:17px;cursor:pointer;direction:ltr}
+.paypal span{color:#003087}.paypal em{color:#0079c1;font-style:normal}
+.otp{display:flex;flex-direction:column;gap:8px}
+.otp p{margin:0;font-size:14px;color:var(--muted)}
+.otp p b{color:var(--fg);font-family:var(--mono);direction:ltr;display:inline-block}
+.otp input{font-family:var(--mono);font-size:26px;letter-spacing:14px;text-align:center;direction:ltr;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--fg)}
+.otp input:focus-visible{outline:3px solid var(--accent);outline-offset:1px}
+.otp .err{color:var(--deal);font-size:13px}
+.linkbtn{background:none;border:0;color:var(--accent);font:inherit;font-size:13px;cursor:pointer;padding:0;align-self:flex-start}
+.success{position:fixed;inset:0;background:var(--bg);z-index:30;display:grid;place-items:center;padding:24px max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px));overflow:auto}
+.success .box{max-width:460px;text-align:center;display:flex;flex-direction:column;gap:14px;align-items:center}
+.check{width:72px;height:72px;border-radius:50%;background:var(--ok);color:#fff;display:grid;place-items:center;font-size:36px}
+.success h2{font-family:var(--display);font-size:28px;margin:0}
+.success p{margin:0;color:var(--muted)}
+.receipt{width:100%;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:8px;font-size:15px;text-align:start}
+.receipt div{display:flex;justify-content:space-between;gap:12px}
+.receipt span{color:var(--muted)}
+.receipt b{font-family:var(--mono);font-weight:500;direction:ltr}
+.wa{display:flex;align-items:center;gap:10px;background:color-mix(in srgb,var(--ok) 12%,transparent);color:var(--fg);border-radius:10px;padding:12px 14px;font-size:15px;text-align:start}
+.home{border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:10px;padding:11px 20px;font:inherit;cursor:pointer}
+.paypal:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+/* site shell */
+html{scroll-behavior:smooth}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+nav.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--fg)}
+.brand svg{width:36px;height:36px;flex:none}
+.brand .wm{font-family:var(--display);font-weight:700;font-size:22px;letter-spacing:.3px;direction:ltr}
+.brand .wm span{color:var(--accent)}
+.links{display:flex;gap:22px;font-size:15px}
+.links a{color:var(--muted);text-decoration:none}
+.links a:hover{color:var(--fg)}
+.cta{background:var(--accent);color:var(--accent-ink);text-decoration:none;font-weight:600;font-size:15px;padding:9px 18px;border-radius:9px;white-space:nowrap}
+@media (max-width:760px){.links{display:none}}
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center;padding-block:56px 40px}
+@media (max-width:860px){.hero{grid-template-columns:1fr;padding-block:36px 24px}}
+.hero>div{min-width:0}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--deal);font-weight:600;background:color-mix(in srgb,var(--deal) 10%,transparent);padding:4px 12px;border-radius:99px}
+.hero h1{font-family:var(--display);font-size:clamp(30px,5.4vw,50px);line-height:1.25;margin:16px 0 14px;text-wrap:balance}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero p.lead{color:var(--muted);font-size:18px;margin:0 0 26px;max-width:520px}
+.actions{display:flex;gap:12px;flex-wrap:wrap}
+.ghost{border:1px solid var(--line);color:var(--fg);text-decoration:none;font-weight:600;font-size:15px;padding:9px 18px;border-radius:9px;background:var(--surface)}
+.trust{display:flex;gap:22px;flex-wrap:wrap;margin-top:28px;font-size:14px;color:var(--muted)}
+.trust b{color:var(--fg);font-family:var(--mono);font-weight:500;direction:ltr;display:inline-block}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:16px;direction:ltr;font-family:var(--mono);font-size:13px}
+.panel .ph{display:flex;justify-content:space-between;align-items:center;color:var(--muted)}
+.live{display:flex;align-items:center;gap:6px;color:var(--ok)}
+.live i{width:8px;height:8px;border-radius:50%;background:var(--ok);animation:pulse 2s infinite}
+@keyframes pulse{50%{opacity:.35}}
+.kv{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.kv div{background:var(--bg);border-radius:10px;padding:10px}
+.kv small{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.6px}
+.kv strong{font-size:18px;font-weight:500}
+.bars{display:flex;gap:3px;height:34px;align-items:flex-end}
+.bars span{flex:1;background:var(--ok);border-radius:2px;opacity:.85}
+.bars span.w{background:#f2b33d}
+.panel .foot{display:flex;justify-content:space-between;color:var(--muted);font-size:11px}
+section.block{padding-block:56px 20px}
+.sh{max-width:620px;margin-bottom:26px}
+.sh h2{font-family:var(--display);font-size:clamp(24px,3.6vw,32px);margin:0 0 8px;text-wrap:balance}
+.sh p{color:var(--muted);margin:0}
+.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:28px 32px}
+@media (max-width:860px){.feats{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.feats{grid-template-columns:1fr}}
+.feat{display:flex;gap:14px;min-width:0}
+.feat .ic{width:42px;height:42px;flex:none;border-radius:10px;background:color-mix(in srgb,var(--accent) 12%,transparent);color:var(--accent);display:grid;place-items:center}
+.feat .ic svg{width:22px;height:22px}
+.feat h3{font-family:var(--display);font-weight:500;font-size:17px;margin:0 0 4px}
+.feat p{margin:0;color:var(--muted);font-size:15px}
+.faq{display:grid;gap:10px;max-width:760px}
+.faq details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 18px}
+.faq summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.faq summary::after{content:"+";color:var(--accent);font-size:20px;line-height:1}
+.faq details[open] summary::after{content:"−"}
+.faq details p{margin:10px 0 0;color:var(--muted)}
+.faq summary:focus-visible{outline:3px solid var(--accent);outline-offset:4px;border-radius:4px}
+.contact{margin-block:56px 0;background:var(--accent);color:var(--accent-ink);border-radius:18px;padding:34px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.contact h2{font-family:var(--display);margin:0 0 6px;font-size:26px}
+.contact p{margin:0;opacity:.85}
+.contact a{background:var(--accent-ink);color:var(--accent);text-decoration:none;font-weight:700;padding:12px 22px;border-radius:10px}
+footer.site{margin-top:56px;border-top:1px solid var(--line);padding-block:36px 28px;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:28px;color:var(--muted);font-size:14px}
+@media (max-width:760px){footer.site{grid-template-columns:1fr}}
+footer.site h4{color:var(--fg);font-family:var(--display);font-weight:500;margin:0 0 10px;font-size:15px}
+footer.site ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+footer.site a{color:var(--muted);text-decoration:none}
+footer.site a:hover{color:var(--fg)}
+.copy{grid-column:1/-1;border-top:1px solid var(--line);padding-top:18px;font-size:13px}
+.pay{padding-block:30px 0}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}html{scroll-behavior:auto}}
+</style>
+<style>
+.lang{border:1px solid var(--line);background:var(--surface);color:var(--fg);font:inherit;font-size:14px;font-weight:600;padding:8px 14px;border-radius:9px;cursor:pointer;white-space:nowrap}
+.lang:focus-visible,.cta:focus-visible,.ghost:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.navend{display:flex;gap:10px;align-items:center}
+html[lang="en"] body{font-family:"IBM Plex Sans",var(--body)}
+@media (max-width:420px){.navend .cta{display:none}}
+</style>
+<div class="wrap">
+  <nav class="top">
+    <a class="brand" href="#top" aria-label="Hosting">
+      <svg viewBox="0 0 40 40" aria-hidden="true">
+        <rect width="40" height="40" rx="10" fill="var(--accent)"/>
+        <rect x="9" y="9" width="22" height="6" rx="2" fill="var(--accent-ink)"/>
+        <rect x="9" y="17" width="22" height="6" rx="2" fill="var(--accent-ink)" opacity=".75"/>
+        <rect x="9" y="25" width="22" height="6" rx="2" fill="var(--accent-ink)" opacity=".5"/>
+        <circle cx="27" cy="12" r="1.6" fill="var(--ok)"/><circle cx="27" cy="20" r="1.6" fill="var(--ok)"/><circle cx="27" cy="28" r="1.6" fill="var(--ok)"/>
+        <rect x="12" y="11" width="8" height="2" rx="1" fill="var(--accent)"/><rect x="12" y="19" width="6" height="2" rx="1" fill="var(--accent)"/><rect x="12" y="27" width="4" height="2" rx="1" fill="var(--accent)"/>
+      </svg>
+      <span class="wm">Host<span>ing</span></span>
+    </a>
+    <div class="links">
+      <a href="#plans-sec" data-i="nav.plans"></a>
+      <a href="#features" data-i="nav.features"></a>
+    </div>
+    <div class="navend">
+      <button class="lang" id="langbtn" type="button"></button>
+      <a class="cta" href="#plans-sec" data-i="nav.start"></a>
+    </div>
+  </nav>
+
+  <section class="hero" id="top">
+    <div>
+      <span class="eyebrow" data-i="hero.eyebrow"></span>
+      <h1 data-h="hero.title"></h1>
+      <p class="lead" data-i="hero.lead"></p>
+      <div class="actions">
+        <a class="cta" href="#plans-sec" data-i="hero.cta1"></a>
+        <a class="ghost" href="#features" data-i="hero.cta2"></a>
+      </div>
+      <div class="trust">
+        <span data-h="trust1"></span><span data-h="trust2"></span><span data-h="trust3"></span>
+      </div>
+    </div>
+    <div class="panel" data-a="panel.aria">
+      <div class="ph"><span>srv-eu-01.hosting</span><span class="live"><i></i>online</span></div>
+      <div class="kv">
+        <div><small>Response</small><strong>38ms</strong></div>
+        <div><small>Uptime</small><strong>99.98%</strong></div>
+        <div><small>Disk</small><strong>NVMe</strong></div>
+      </div>
+      <div class="bars" id="bars"></div>
+      <div class="foot"><span>30 days ago</span><span>today</span></div>
+    </div>
+  </section>
+
+  <section class="block" id="plans-sec" style="padding-top:30px">
+    <div class="sh">
+      <h2 data-i="plans.title"></h2>
+      <p data-i="plans.sub"></p>
+      <div class="toggle" role="group" data-a="cyc.aria">
+        <button id="bm" aria-pressed="true" data-cycle="m" data-i="cyc.m"></button>
+        <button id="by" aria-pressed="false" data-cycle="y" data-i="cyc.y"></button>
+      </div>
+    </div>
+    <div class="plans" id="plans"></div>
+  </section>
+
+  <section class="pay">
+    <h2 data-i="pay.title"></h2>
+    <div class="methods" id="chips"></div>
+    <div class="note" data-i="pay.note"></div>
+  </section>
+
+  <section class="block" id="features">
+    <div class="sh"><h2 data-i="feat.title"></h2><p data-i="feat.sub"></p></div>
+    <div class="feats" id="feats"></div>
+  </section>
+
+  <footer class="site">
+    <div>
+      <a class="brand" href="#top"><svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="var(--accent)"/><rect x="9" y="9" width="22" height="6" rx="2" fill="var(--accent-ink)"/><rect x="9" y="17" width="22" height="6" rx="2" fill="var(--accent-ink)" opacity=".75"/><rect x="9" y="25" width="22" height="6" rx="2" fill="var(--accent-ink)" opacity=".5"/><circle cx="27" cy="12" r="1.6" fill="var(--ok)"/><circle cx="27" cy="20" r="1.6" fill="var(--ok)"/><circle cx="27" cy="28" r="1.6" fill="var(--ok)"/></svg><span class="wm">Host<span>ing</span></span></a>
+      <p style="margin:12px 0 0;max-width:300px" data-i="foot.about"></p>
+    </div>
+    <div><h4 data-i="foot.site"></h4><ul><li><a href="#plans-sec" data-i="nav.plans"></a></li><li><a href="#features" data-i="nav.features"></a></li></ul></div>
+    <div><h4 data-i="foot.pay"></h4><ul><li data-i="foot.p1"></li><li data-i="foot.p2"></li><li data-i="foot.p3"></li></ul></div>
+    <div class="copy" data-i="foot.copy"></div>
+  </footer>
+</div>
+
+<div class="overlay" id="ov" hidden>
+  <form class="modal" id="mf" aria-labelledby="mt">
+    <h3 id="mt" data-i="m.title"></h3>
+    <div class="sum"><span id="mplan"></span><b id="mprice"></b></div>
+    <div class="pms" id="pms"></div>
+    <div class="vf" id="vfbox" hidden>
+      <label for="vfnum" data-i="m.vflabel"></label>
+      <input id="vfnum" type="tel" inputmode="numeric" maxlength="11" placeholder="010xxxxxxxx" autocomplete="tel">
+      <div class="hint" data-i="m.vfhint"></div>
+      <div class="err" id="vferr" hidden data-i="m.vferr"></div>
+    </div>
+    <div class="otp" id="otpbox" hidden>
+      <p><span data-i="m.otpsent"></span> <b id="otpnum"></b></p>
+      <label for="otpcode" class="hint" data-i="m.otplabel"></label>
+      <input id="otpcode" type="text" inputmode="numeric" maxlength="4" autocomplete="one-time-code" placeholder="••••">
+      <div class="err" id="otperr" hidden data-i="m.otperr"></div>
+      <button type="button" class="linkbtn" id="otpback" data-i="m.change"></button>
+    </div>
+    <div id="mdone" class="done" hidden></div>
+    <div class="row">
+      <button type="submit" class="confirm" id="mconfirm"></button>
+      <button type="button" class="paypal" id="ppbtn" hidden><span>Pay</span><em>Pal</em></button>
+      <button type="button" class="close" id="mclose" data-i="m.cancel"></button>
+    </div>
+  </form>
+</div>
+
+<div class="success" id="succ" hidden>
+  <div class="box">
+    <div class="check">✓</div>
+    <h2 data-i="s.title"></h2>
+    <p data-i="s.thanks"></p>
+    <div class="receipt">
+      <div><span data-i="s.plan"></span><strong id="rplan"></strong></div>
+      <div><span data-i="s.amount"></span><b id="rprice"></b></div>
+      <div><span data-i="s.method"></span><strong data-i="pm.vf"></strong></div>
+      <div><span data-i="s.order"></span><b id="rorder"></b></div>
+    </div>
+    <div class="wa"><span><span data-i="s.wa1"></span> <b id="rnum" style="font-family:var(--mono);direction:ltr;display:inline-block"></b> <span data-i="s.wa2"></span></span></div>
+    <button class="home" id="gohome" type="button" data-i="s.home"></button>
+  </div>
+</div>
+
+<script>
+const OTP_CODE="2565"; // رمز تجريبي إلى حين تفعيل Paymob
+const WHATSAPP="";     // رقم واتساب الدعم بالصيغة الدولية، مثال: 201001234567
+
+const T={
+ar:{
+ "nav.plans":"الباقات","nav.features":"المميزات","nav.faq":"الأسئلة الشائعة","nav.contact":"تواصل معنا","nav.start":"ابدأ الآن","lang.btn":"English",
+ "hero.eyebrow":"عرض محدود: خصم 75% على باقة Pro",
+ "hero.title":"استضافة مواقع <em>سريعة ومستقرة</em> بأسعار تناسبك",
+ "hero.lead":"خوادم تعمل بأقراص NVMe، وشهادة SSL مجانية، ونسخ احتياطي يومي، ودعم فني باللغة العربية عبر واتساب. ادفع عبر Vodafone Cash أو Visa أو Mastercard.",
+ "hero.cta1":"تصفّح الباقات","hero.cta2":"لماذا Hosting؟",
+ "trust1":"<b>99.9%</b> وقت تشغيل مضمون","trust2":"<b>24/7</b> دعم فني","trust3":"<b>30</b> يومًا لاسترداد المبلغ",
+ "panel.aria":"حالة الخوادم",
+ "plans.title":"اختر باقتك","plans.sub":"تشمل جميع الباقات شهادة SSL مجانية ولوحة تحكم ونسخًا احتياطيًا يوميًا.",
+ "cyc.aria":"مدة الاشتراك","cyc.m":"شهري","cyc.y":"سنوي (وفّر شهرين)",
+ "per.m":"/ شهريًا","per.y":"/ سنويًا","ribbon":"خصم {p}%","save":"توفّر {s} — العرض لفترة محدودة","buy":"اشترِ الآن",
+ "pay.title":"طرق الدفع المتاحة","pay.note":"الأسعار بالدولار الأمريكي، ويُحتسب الدفع عبر Vodafone Cash بالجنيه المصري وفق سعر الصرف اليومي.",
+ "pm.visa":"Visa","pm.mc":"Mastercard","pm.vf":"Vodafone Cash","pm.pp":"PayPal","pm.gp":"Google Pay",
+ "feat.title":"كل ما يحتاجه موقعك","feat.sub":"نجهّز لك الاستضافة ونسلّمها جاهزة، لتتفرغ أنت لعملك.",
+ "f":[["سرعة NVMe","أقراص NVMe أسرع بما يصل إلى عشرة أضعاف من أقراص SSD التقليدية."],["شهادة SSL مجانية","شهادة أمان لكل نطاق تتجدد تلقائيًا."],["نسخ احتياطي يومي","نحتفظ بنسخة يومية لمدة 14 يومًا، ويمكنك استعادتها بنقرة واحدة."],["لوحة تحكم سهلة","ثبّت ووردبريس وأنشئ البريد الإلكتروني وقواعد البيانات من مكان واحد."],["دعم باللغة العربية","فريق الدعم متاح عبر واتساب على مدار الساعة طوال أيام الأسبوع."],["حماية من الهجمات","جدار حماية وحماية من هجمات DDoS مفعّلان على جميع الخوادم."]],
+ "faq.title":"الأسئلة الشائعة",
+ "q":[["كيف أستلم بيانات الاستضافة؟","بعد إتمام الدفع نتواصل معك عبر واتساب ونرسل إليك بيانات الدخول إلى لوحة التحكم."],["هل يمكنني نقل موقعي من استضافة أخرى؟","نعم، ننقل الموقع والبريد الإلكتروني وقواعد البيانات مجانًا."],["ماذا لو لم تناسبني الباقة؟","يمكنك طلب استرداد المبلغ خلال 30 يومًا من تاريخ الاشتراك."],["هل يمكنني ترقية باقتي لاحقًا؟","نعم، وتدفع الفرق فقط عن المدة المتبقية."]],
+ "contact.title":"هل تحتاج مساعدة في اختيار الباقة؟","contact.sub":"راسلنا عبر واتساب وسنردّ عليك خلال دقائق.","contact.btn":"تواصل عبر واتساب",
+ "foot.about":"استضافة مواقع سريعة ومستقرة بدعم عربي وطرق دفع محلية.","foot.site":"الموقع","foot.pay":"الدفع","foot.p1":"Visa & Mastercard","foot.p2":"Vodafone Cash","foot.p3":"PayPal & Google Pay","foot.copy":"© 2026 Hosting — جميع الحقوق محفوظة",
+ "m.title":"إتمام الشراء","m.plan":"باقة {n} ({c})","m.vflabel":"رقم محفظة Vodafone Cash","m.vfhint":"سنرسل رمز تحقق إلى هذا الرقم لتأكيد الطلب.","m.vferr":"أدخل رقم Vodafone صحيحًا مكوّنًا من 11 رقمًا ويبدأ بـ 010.",
+ "m.otpsent":"أرسلنا رمزًا مكوّنًا من 4 أرقام إلى الرقم","m.otplabel":"أدخل رمز التحقق","m.otperr":"الرمز غير صحيح، يُرجى مراجعة الرسالة والمحاولة مرة أخرى.","m.change":"تغيير الرقم","m.cancel":"إلغاء",
+ "m.continue":"متابعة الدفع","m.payvf":"ادفع عبر Vodafone Cash","m.confirmcode":"تأكيد الرمز","m.ppnote":"سيُحوَّل العميل هنا إلى صفحة PayPal بعد ربط حسابك.","m.chosen":"تم اختيار {m}. اربط صفحة الدفع الفعلية هنا ليُكمل العميل عملية الدفع.",
+ "s.title":"تم الاشتراك بنجاح","s.thanks":"شكرًا لاختيارك Hosting.","s.plan":"الباقة","s.amount":"المبلغ","s.method":"طريقة الدفع","s.order":"رقم الطلب","s.wa1":"سنتواصل معك عبر واتساب على الرقم","s.wa2":"لتسليمك بيانات الاستضافة.","s.home":"العودة إلى الباقات",
+ "cycle.m":"شهري","cycle.y":"سنوي",
+ "plans":{starter:["لموقع شخصي أو صفحة واحدة",["المواقع","المساحة","الباندويدث","البريد الإلكتروني","SSL"],["1","10 GB NVMe","100 GB","5","مجاني"]],pro:["الأنسب للمتاجر والشركات الصغيرة",["المواقع","المساحة","الباندويدث","البريد الإلكتروني","النطاق"],["10","50 GB NVMe","غير محدود","50","مجاني لسنة"]],business:["للمواقع ذات الزيارات العالية",["المواقع","المساحة","الباندويدث","البريد الإلكتروني","IP مخصص"],["غير محدود","200 GB NVMe","غير محدود","غير محدود","✓"]]}
+},
+en:{
+ "nav.plans":"Plans","nav.features":"Features","nav.faq":"FAQ","nav.contact":"Contact","nav.start":"Get started","lang.btn":"العربية",
+ "hero.eyebrow":"Limited offer: 75% off the Pro plan",
+ "hero.title":"<em>Fast, reliable</em> web hosting at a price that fits",
+ "hero.lead":"NVMe servers, free SSL, daily backups, and Arabic-speaking support on WhatsApp. Pay with Vodafone Cash, Visa, or Mastercard.",
+ "hero.cta1":"View plans","hero.cta2":"Why Hosting?",
+ "trust1":"<b>99.9%</b> uptime guarantee","trust2":"<b>24/7</b> support","trust3":"<b>30</b>-day money back",
+ "panel.aria":"Server status",
+ "plans.title":"Choose your plan","plans.sub":"Every plan includes free SSL, a control panel, and daily backups.",
+ "cyc.aria":"Billing period","cyc.m":"Monthly","cyc.y":"Yearly (2 months free)",
+ "per.m":"/ month","per.y":"/ year","ribbon":"{p}% OFF","save":"You save {s} — limited time","buy":"Buy now",
+ "pay.title":"Payment methods","pay.note":"Prices are in US dollars. Vodafone Cash payments are charged in Egyptian pounds at the daily exchange rate.",
+ "pm.visa":"Visa","pm.mc":"Mastercard","pm.vf":"Vodafone Cash","pm.pp":"PayPal","pm.gp":"Google Pay",
+ "feat.title":"Everything your site needs","feat.sub":"We set up your hosting and hand it over ready, so you can focus on your business.",
+ "f":[["NVMe speed","NVMe drives up to 10× faster than standard SSDs."],["Free SSL","A security certificate for every domain, renewed automatically."],["Daily backups","Daily copies kept for 14 days, restored in one click."],["Easy control panel","Install WordPress and create email accounts and databases in one place."],["Arabic support","Our support team is on WhatsApp 24 hours a day, 7 days a week."],["Attack protection","Firewall and DDoS protection enabled on every server."]],
+ "faq.title":"Frequently asked questions",
+ "q":[["How do I receive my hosting details?","After payment, we contact you on WhatsApp and send your control panel login."],["Can I move my site from another host?","Yes. We migrate your site, email, and databases for free."],["What if the plan isn't right for me?","You can request a full refund within 30 days of subscribing."],["Can I upgrade later?","Yes. You only pay the difference for the remaining period."]],
+ "contact.title":"Need help choosing a plan?","contact.sub":"Message us on WhatsApp and we'll reply within minutes.","contact.btn":"Chat on WhatsApp",
+ "foot.about":"Fast, reliable web hosting with Arabic support and local payment options.","foot.site":"Site","foot.pay":"Payment","foot.p1":"Visa & Mastercard","foot.p2":"Vodafone Cash","foot.p3":"PayPal & Google Pay","foot.copy":"© 2026 Hosting — All rights reserved",
+ "m.title":"Checkout","m.plan":"{n} plan ({c})","m.vflabel":"Vodafone Cash wallet number","m.vfhint":"We'll send a verification code to this number to confirm your order.","m.vferr":"Enter a valid 11-digit Vodafone number starting with 010.",
+ "m.otpsent":"We sent a 4-digit code to","m.otplabel":"Enter the verification code","m.otperr":"Incorrect code. Check the message and try again.","m.change":"Change number","m.cancel":"Cancel",
+ "m.continue":"Continue to payment","m.payvf":"Pay with Vodafone Cash","m.confirmcode":"Confirm code","m.ppnote":"Customers will be sent to PayPal here once your account is connected.","m.chosen":"{m} selected. Connect the real payment page here so customers can complete payment.",
+ "s.title":"Subscription confirmed","s.thanks":"Thank you for choosing Hosting.","s.plan":"Plan","s.amount":"Amount","s.method":"Payment method","s.order":"Order number","s.wa1":"We'll contact you on WhatsApp at","s.wa2":"to send your hosting details.","s.home":"Back to plans",
+ "cycle.m":"Monthly","cycle.y":"Yearly",
+ "plans":{starter:["For a personal site or a single page",["Websites","Storage","Bandwidth","Email accounts","SSL"],["1","10 GB NVMe","100 GB","5","Free"]],pro:["Best for stores and small businesses",["Websites","Storage","Bandwidth","Email accounts","Domain"],["10","50 GB NVMe","Unlimited","50","Free for 1 year"]],business:["For high-traffic websites",["Websites","Storage","Bandwidth","Email accounts","Dedicated IP"],["Unlimited","200 GB NVMe","Unlimited","Unlimited","✓"]]}
+}};
+const ICONS=['<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>','<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>','<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/>','<rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M8 21h8"/>','<path d="M21 12a8 8 0 0 1-11.8 7L4 20l1.1-4.9A8 8 0 1 1 21 12z"/>','<path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/>'];
+const plans=[{id:"starter",name:"Starter",m:4.99},{id:"pro",name:"Pro",m:11.99,off:75},{id:"business",name:"Business",m:24.99}];
+const methods=["visa","mc","vf","pp","gp"];
+let lang="en",cycle="m",current=null,otpStep=false;
+try{const s=localStorage.getItem("hosting-lang");if(s==="en"||s==="ar")lang=s;}catch(e){}
+const $=id=>document.getElementById(id);
+const t=(k,v={})=>String(T[lang][k]).replace(/\{(\w+)\}/g,(_,x)=>v[x]);
+const fmt=n=>"$"+n.toFixed(2);
+function priceOf(p){const base=cycle==="m"?p.m:p.m*10;const now=p.off?base*(1-p.off/100):base;return{base,now};}
+
+function renderPlans(){
+  $("plans").innerHTML=plans.map(p=>{const {base,now}=priceOf(p);const d=T[lang].plans[p.id];
+    return `<article class="card${p.off?" hot":""}">
+      ${p.off?`<div class="ribbon">${t("ribbon",{p:p.off})}</div>`:""}
+      <h2 class="name">${p.name}</h2><div class="for">${d[0]}</div>
+      <div class="price">${p.off?`<span class="was">${fmt(base)}</span>`:""}<span class="now">${fmt(now)}</span><span class="per">${t(cycle==="m"?"per.m":"per.y")}</span></div>
+      ${p.off?`<div class="save">${t("save",{s:fmt(base-now)})}</div>`:""}
+      <ul class="specs">${d[1].map((l,i)=>`<li><span>${l}</span><strong>${d[2][i]}</strong></li>`).join("")}</ul>
+      <button class="buy" data-id="${p.id}">${t("buy")}</button></article>`}).join("");
+}
+function applyLang(){
+  const r=document.documentElement;r.lang=lang;r.dir=lang==="ar"?"rtl":"ltr";
+  document.querySelectorAll("[data-i]").forEach(el=>el.textContent=t(el.dataset.i));
+  document.querySelectorAll("[data-h]").forEach(el=>el.innerHTML=t(el.dataset.h));
+  document.querySelectorAll("[data-a]").forEach(el=>el.setAttribute("aria-label",t(el.dataset.a)));
+  $("langbtn").textContent=t("lang.btn");
+  $("chips").innerHTML=methods.map(m=>`<div class="chip"><span class="dot d-${m}">${m.toUpperCase()}</span>${t("pm."+m)}</div>`).join("");
+  const checked=document.querySelector('input[name="pm"]:checked');const sel=checked?checked.value:"visa";
+  $("pms").innerHTML=methods.map(m=>`<label class="pm"><input type="radio" name="pm" id="pm-${m}" value="${m}" ${m===sel?"checked":""}><span class="dot d-${m}">${m.toUpperCase()}</span>${t("pm."+m)}</label>`).join("");
+  $("feats").innerHTML=T[lang].f.map((f,i)=>`<div class="feat"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[i]}</svg></div><div><h3>${f[0]}</h3><p>${f[1]}</p></div></div>`).join("");
+  renderPlans();
+  if(current)$("mplan").textContent=t("m.plan",{n:current.name,c:t("cycle."+cycle)});
+  if(!$("ov").hidden)syncButtons();
+}
+$("langbtn").onclick=()=>{lang=lang==="ar"?"en":"ar";try{localStorage.setItem("hosting-lang",lang)}catch(e){}applyLang();};
+
+document.querySelectorAll(".toggle button").forEach(b=>b.onclick=()=>{cycle=b.dataset.cycle;
+  document.querySelectorAll(".toggle button").forEach(x=>x.setAttribute("aria-pressed",x===b));renderPlans();});
+
+const ov=$("ov"),vfbox=$("vfbox"),ppbtn=$("ppbtn"),mconfirm=$("mconfirm");
+function method(){return document.querySelector('input[name="pm"]:checked').value;}
+function syncButtons(){const v=method();
+  ppbtn.hidden=v!=="pp"||otpStep;mconfirm.hidden=v==="pp"&&!otpStep;
+  mconfirm.textContent=otpStep?t("m.confirmcode"):(v==="vf"?t("m.payvf"):t("m.continue"));}
+function syncMethod(){otpStep=false;$("otpbox").hidden=true;$("pms").hidden=false;
+  vfbox.hidden=method()!=="vf";$("mdone").hidden=true;$("vferr").hidden=true;syncButtons();}
+$("plans").addEventListener("click",e=>{const b=e.target.closest(".buy");if(!b)return;
+  current=plans.find(p=>p.id===b.dataset.id);
+  $("mplan").textContent=t("m.plan",{n:current.name,c:t("cycle."+cycle)});
+  $("mprice").textContent=fmt(priceOf(current).now);
+  syncMethod();ov.hidden=false;});
+$("pms").addEventListener("change",syncMethod);
+$("vfnum").addEventListener("input",e=>{e.target.value=e.target.value.replace(/\D/g,"");$("vferr").hidden=true;});
+$("otpcode").addEventListener("input",e=>{e.target.value=e.target.value.replace(/\D/g,"");$("otperr").hidden=true;});
+$("otpback").onclick=()=>{syncMethod();$("vfnum").focus();};
+ppbtn.onclick=()=>{$("mdone").textContent=t("m.ppnote");$("mdone").hidden=false;};
+$("mclose").onclick=()=>ov.hidden=true;
+ov.addEventListener("click",e=>{if(e.target===ov)ov.hidden=true});
+$("gohome").onclick=()=>{$("succ").hidden=true;location.hash="#plans-sec";};
+$("mf").addEventListener("submit",e=>{e.preventDefault();const v=method(),d=$("mdone");
+  if(v==="vf"){const n=$("vfnum").value;
+    if(!otpStep){
+      if(!/^010\d{8}$/.test(n)){$("vferr").hidden=false;return;}
+      otpStep=true;$("otpnum").textContent=n;$("otpcode").value="";
+      vfbox.hidden=true;$("pms").hidden=true;$("otpbox").hidden=false;syncButtons();$("otpcode").focus();return;}
+    if($("otpcode").value!==OTP_CODE){$("otperr").hidden=false;return;}
+    $("rplan").textContent=$("mplan").textContent;$("rprice").textContent=$("mprice").textContent;
+    $("rorder").textContent="#H"+Math.floor(100000+Math.random()*900000);$("rnum").textContent=n;
+    ov.hidden=true;$("succ").hidden=false;return;}
+  d.textContent=t("m.chosen",{m:t("pm."+v)});d.hidden=false;mconfirm.hidden=true;});
+
+$("bars").innerHTML=Array.from({length:30},(_,i)=>{const h=i===11?62:84+((i*37)%16);return `<span class="${i===11?"w":""}" style="height:${h}%"></span>`}).join("");
+applyLang();
+</script>
+
+</body></html>
